@@ -1,245 +1,1354 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Samarix | Next-Gen Connectivity</title>
+  <title>Samarix | Next-Gen Connectivity Platform</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   
   <style>
-    /* --- RESET & BASE STYLES --- */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    /* ===============================================
+       RESET & BASE STYLES
+    =============================================== */
+    * { 
+        box-sizing: border-box; 
+        margin: 0; 
+        padding: 0; 
+    }
+    
+    :root {
+        --primary-gradient: linear-gradient(135deg, #00c6ff, #0072ff);
+        --secondary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --success-color: #00ff41;
+        --bg-dark: #050507;
+        --bg-card: rgba(255, 255, 255, 0.03);
+        --border-color: rgba(255, 255, 255, 0.08);
+        --text-muted: #8892b0;
+    }
     
     body {
-        background-color: #050507; /* Deepest black-blue */
-        /* الگوی شبکه‌ای حرفه‌ای در پس‌زمینه */
-        background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        background-size: 40px 40px;
+        background-color: var(--bg-dark);
+        background-image: 
+            radial-gradient(circle at 20% 50%, rgba(0, 198, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.05) 0%, transparent 50%),
+            linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 100% 100%, 100% 100%, 50px 50px, 50px 50px;
+        background-position: 0 0, 0 0, 0 0, 0 0;
         
         color: #ffffff;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         overflow-x: hidden;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+        line-height: 1.6;
     }
 
-    /* --- HEADER / NAVBAR --- */
+    /* Smooth Scroll */
+    html { scroll-behavior: smooth; }
+
+    /* Selection Color */
+    ::selection {
+        background: rgba(0, 198, 255, 0.3);
+        color: white;
+    }
+
+    /* ===============================================
+       NAVBAR - حرفه‌ای با منوی موبایل
+    =============================================== */
     .navbar {
         width: 100%;
-        padding: 20px 40px;
+        padding: 20px 5%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         position: fixed;
         top: 0;
-        background: rgba(5, 5, 7, 0.8); /* Glassmorphism */
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: rgba(5, 5, 7, 0.85);
+        backdrop-filter: blur(20px) saturate(180%);
+        border-bottom: 1px solid var(--border-color);
         z-index: 1000;
+        transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+        padding: 15px 5%;
+        background: rgba(5, 5, 7, 0.95);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     }
 
     .nav-logo {
         font-family: 'JetBrains Mono', monospace;
         font-weight: 700;
-        font-size: 1.2em;
+        font-size: 1.3em;
         color: #fff;
         text-decoration: none;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .nav-logo::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background: var(--success-color);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--success-color);
+        animation: blink 2s infinite;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 35px;
+        align-items: center;
     }
 
     .nav-links a {
-        color: #888;
+        color: #aaa;
         text-decoration: none;
-        margin-left: 30px;
-        font-size: 0.9em;
+        font-size: 0.95em;
+        font-weight: 500;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary-gradient);
+        transition: width 0.3s;
+    }
+
+    .nav-links a:hover {
+        color: #fff;
+    }
+
+    .nav-links a:hover::after {
+        width: 100%;
+    }
+
+    /* Mobile Menu Button */
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: white;
+        border-radius: 2px;
         transition: 0.3s;
     }
-    .nav-links a:hover { color: #fff; }
 
-    /* --- HERO SECTION --- */
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(8px, 8px);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(7px, -7px);
+    }
+
+    /* ===============================================
+       HERO SECTION - بخش اصلی
+    =============================================== */
     .hero {
-        flex: 1;
+        min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 120px 20px 60px;
+        padding: 140px 20px 80px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* وضعیت سیستم (کپسول) */
+    /* Floating Particles */
+    .particle {
+        position: absolute;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0.15;
+        animation: float 20s infinite;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-100px) rotate(180deg); }
+    }
+
     .status-badge {
-        background: rgba(0, 255, 65, 0.1);
+        background: rgba(0, 255, 65, 0.08);
         border: 1px solid rgba(0, 255, 65, 0.3);
-        padding: 6px 16px;
-        border-radius: 20px;
+        padding: 8px 20px;
+        border-radius: 30px;
         font-family: 'JetBrains Mono', monospace;
-        font-size: 0.8em;
-        color: #00ff41;
+        font-size: 0.75em;
+        color: var(--success-color);
         margin-bottom: 30px;
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        animation: slideDown 0.8s ease-out;
     }
     
     .status-dot {
         width: 8px;
         height: 8px;
-        background: #00ff41;
+        background: var(--success-color);
         border-radius: 50%;
-        box-shadow: 0 0 8px #00ff41;
+        box-shadow: 0 0 12px var(--success-color);
         animation: blink 2s infinite;
     }
 
-    /* لوگوی اصلی با گرادینت و انیمیشن */
     h1 {
-        font-size: 5em;
-        line-height: 1.1;
-        font-weight: 800;
-        letter-spacing: -2px;
-        margin-bottom: 20px;
-        background: linear-gradient(135deg, #00c6ff, #0072ff); /* گرادینت آبی مدرن */
+        font-size: 6.5em;
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: -3px;
+        margin-bottom: 25px;
+        background: var(--primary-gradient);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: pulse-glow 4s infinite ease-in-out;
+        background-clip: text;
+        animation: slideUp 1s ease-out;
+        position: relative;
+    }
+
+    h1::after {
+        content: "_";
+        animation: cursorBlink 1s infinite;
+        -webkit-text-fill-color: #00c6ff;
     }
 
     .subtitle {
-        font-size: 1.2em;
-        color: #8892b0;
-        max-width: 600px;
-        margin-bottom: 50px;
-        line-height: 1.6;
+        font-size: 1.3em;
+        color: var(--text-muted);
+        max-width: 650px;
+        margin: 0 auto 50px;
+        line-height: 1.7;
+        animation: fadeIn 1.2s ease-out;
     }
 
-    /* --- BUTTONS --- */
     .btn-group {
         display: flex;
         gap: 20px;
         flex-wrap: wrap;
         justify-content: center;
+        animation: fadeIn 1.5s ease-out;
     }
 
     .btn {
-        padding: 16px 32px;
-        border-radius: 8px;
+        padding: 18px 40px;
+        border-radius: 12px;
         font-weight: 600;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         font-size: 1em;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        position: relative;
+        overflow: hidden;
     }
 
-    /* دکمه اصلی (گرادینت) */
+    .btn::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        transform: translate(-50%, -50%);
+        transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:hover::before {
+        width: 300px;
+        height: 300px;
+    }
+
     .btn-primary {
-        background: linear-gradient(90deg, #00c6ff, #0072ff);
+        background: var(--primary-gradient);
         color: #ffffff;
-        box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
-        border: 1px solid transparent;
-    }
-    .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 0 30px rgba(0, 198, 255, 0.6);
+        box-shadow: 0 10px 40px rgba(0, 198, 255, 0.3);
+        border: none;
     }
 
-    /* دکمه دوم (شیشه‌ای) */
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 50px rgba(0, 198, 255, 0.5);
+    }
+
     .btn-secondary {
         background: rgba(255, 255, 255, 0.05);
         color: #ffffff;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(5px);
+        border: 1.5px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
     }
+
     .btn-secondary:hover {
         background: rgba(255, 255, 255, 0.1);
-        border-color: #fff;
+        border-color: rgba(255, 255, 255, 0.4);
+        transform: translateY(-3px);
     }
 
-    /* --- FOOTER --- */
-    footer {
-        border-top: 1px solid rgba(255, 255, 255, 0.05);
-        padding: 40px 20px;
+    /* ===============================================
+       STATS SECTION - آمار و ارقام
+    =============================================== */
+    .stats-section {
+        padding: 80px 5%;
+        background: rgba(0, 0, 0, 0.3);
+        border-top: 1px solid var(--border-color);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .stat-item {
         text-align: center;
-        background: #030304;
-        font-size: 0.9em;
-        color: #555;
+        padding: 30px;
+        background: var(--bg-card);
+        border-radius: 16px;
+        border: 1px solid var(--border-color);
+        transition: all 0.3s;
     }
 
-    .footer-link {
+    .stat-item:hover {
+        transform: translateY(-5px);
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(0, 198, 255, 0.3);
+    }
+
+    .stat-number {
+        font-size: 3em;
+        font-weight: 800;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        color: var(--text-muted);
+        font-size: 0.95em;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    /* ===============================================
+       FEATURES SECTION - ویژگی‌ها
+    =============================================== */
+    .features-section {
+        padding: 100px 5%;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 70px;
+    }
+
+    .section-tag {
+        color: #00c6ff;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.85em;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+    }
+
+    .section-title {
+        font-size: 3em;
+        font-weight: 800;
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+    }
+
+    .section-description {
+        color: var(--text-muted);
+        font-size: 1.15em;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+
+    .feature-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        padding: 40px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-gradient);
+        opacity: 0;
+        transition: opacity 0.4s;
+        z-index: 0;
+    }
+
+    .feature-card:hover::before {
+        opacity: 0.05;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(0, 198, 255, 0.4);
+        box-shadow: 0 20px 60px rgba(0, 198, 255, 0.15);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--primary-gradient);
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .feature-icon svg {
+        width: 30px;
+        height: 30px;
+        stroke: white;
+        fill: none;
+        stroke-width: 2;
+    }
+
+    .feature-card h3 {
+        font-size: 1.4em;
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .feature-card p {
+        color: var(--text-muted);
+        line-height: 1.7;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* ===============================================
+       TECH STACK SECTION
+    =============================================== */
+    .tech-section {
+        padding: 100px 5%;
+        background: rgba(0, 0, 0, 0.3);
+        border-top: 1px solid var(--border-color);
+    }
+
+    .tech-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .tech-badge {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.9em;
+        color: #aaa;
+        transition: all 0.3s;
+        cursor: default;
+    }
+
+    .tech-badge:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: #00c6ff;
+        color: #00c6ff;
+        transform: translateY(-2px);
+    }
+
+    /* ===============================================
+       PRICING / PLANS SECTION
+    =============================================== */
+    .pricing-section {
+        padding: 100px 5%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .pricing-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+    }
+
+    .pricing-card {
+        background: var(--bg-card);
+        border: 1.5px solid var(--border-color);
+        border-radius: 24px;
+        padding: 45px 35px;
+        text-align: center;
+        transition: all 0.4s;
+        position: relative;
+    }
+
+    .pricing-card.featured {
+        border-color: #00c6ff;
+        background: rgba(0, 198, 255, 0.05);
+        transform: scale(1.05);
+    }
+
+    .pricing-card.featured::before {
+        content: "POPULAR";
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--primary-gradient);
+        padding: 5px 20px;
+        border-radius: 20px;
+        font-size: 0.7em;
+        font-weight: 700;
+        letter-spacing: 1px;
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(0, 198, 255, 0.5);
+    }
+
+    .plan-name {
+        font-size: 1.3em;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #00c6ff;
+    }
+
+    .plan-price {
+        font-size: 3em;
+        font-weight: 800;
+        margin-bottom: 10px;
+    }
+
+    .plan-price span {
+        font-size: 0.4em;
+        color: var(--text-muted);
+    }
+
+    .plan-features {
+        list-style: none;
+        margin: 30px 0;
+        text-align: left;
+    }
+
+    .plan-features li {
+        padding: 12px 0;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .plan-features li::before {
+        content: "✓";
+        color: var(--success-color);
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+
+    /* ===============================================
+       FAQ SECTION
+    =============================================== */
+    .faq-section {
+        padding: 100px 5%;
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .faq-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        margin-bottom: 20px;
+        overflow: hidden;
+        transition: all 0.3s;
+    }
+
+    .faq-item:hover {
+        border-color: rgba(0, 198, 255, 0.3);
+    }
+
+    .faq-question {
+        padding: 25px 30px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        user-select: none;
+    }
+
+    .faq-question::after {
+        content: "+";
+        font-size: 1.5em;
+        transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-question::after {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease, padding 0.4s ease;
+        color: var(--text-muted);
+        line-height: 1.7;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+        padding: 0 30px 25px;
+    }
+
+    /* ===============================================
+       CTA SECTION - Call To Action
+    =============================================== */
+    .cta-section {
+        padding: 120px 5%;
+        text-align: center;
+        background: 
+            radial-gradient(circle at center, rgba(0, 198, 255, 0.1) 0%, transparent 70%),
+            var(--bg-dark);
+        border-top: 1px solid var(--border-color);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-section::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: 
+            repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 198, 255, 0.03) 2px, rgba(0, 198, 255, 0.03) 4px);
+        animation: scan 15s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scan {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(50px); }
+    }
+
+    .cta-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-title {
+        font-size: 3.5em;
+        font-weight: 800;
+        margin-bottom: 25px;
+        letter-spacing: -2px;
+    }
+
+    .cta-description {
+        font-size: 1.2em;
+        color: var(--text-muted);
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    /* ===============================================
+       FOOTER
+    =============================================== */
+    footer {
+        border-top: 1px solid var(--border-color);
+        padding: 60px 5% 30px;
+        background: #020203;
+    }
+
+    .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 50px;
+        margin-bottom: 50px;
+    }
+
+    .footer-section h3 {
+        margin-bottom: 20px;
+        font-size: 1.1em;
+        color: #00c6ff;
+    }
+
+    .footer-section p,
+    .footer-section a {
         color: #777;
         text-decoration: none;
+        display: block;
+        margin-bottom: 10px;
         transition: 0.3s;
-        margin-left: 10px;
+        line-height: 1.8;
     }
-    .footer-link:hover { color: #00c6ff; }
 
-    /* --- ANIMATIONS --- */
-    @keyframes pulse-glow {
-        0%, 100% { filter: drop-shadow(0 0 15px rgba(0, 198, 255, 0.2)); opacity: 0.9; }
-        50% { filter: drop-shadow(0 0 40px rgba(0, 198, 255, 0.6)); opacity: 1; }
+    .footer-section a:hover {
+        color: #00c6ff;
+        padding-left: 5px;
     }
-    
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
 
-    /* Mobile Responsive */
-    @media (max-width: 768px) {
-        h1 { font-size: 3.5em; }
-        .navbar { padding: 15px 20px; }
-        .nav-links { display: none; } /* مخفی کردن لینک‌های بالا در موبایل برای سادگی */
+    .social-links {
+        display: flex;
+        gap: 15px;
+        margin-top: 20px;
+    }
+
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+    }
+
+    .social-links a:hover {
+        background: var(--primary-gradient);
+        border-color: transparent;
+        transform: translateY(-3px);
+        padding-left: 0;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        border-top: 1px solid var(--border-color);
+        color: #555;
+        font-size: 0.9em;
+    }
+
+    /* ===============================================
+       ANIMATIONS
+    =============================================== */
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.3; }
+    }
+
+    @keyframes cursorBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+    }
+
+    /* ===============================================
+       RESPONSIVE DESIGN
+    =============================================== */
+    @media (max-width: 968px) {
+        h1 { font-size: 4em; }
+        .section-title { font-size: 2.2em; }
+        .cta-title { font-size: 2.5em; }
+        
+        .nav-links {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 70%;
+            height: 100vh;
+            background: rgba(5, 5, 7, 0.98);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: right 0.4s ease;
+            border-left: 1px solid var(--border-color);
+        }
+
+        .nav-links.active {
+            right: 0;
+        }
+
+        .nav-links a {
+            font-size: 1.3em;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .menu-toggle {
+            display: flex;
+        }
+
+        .pricing-card.featured {
+            transform: scale(1);
+        }
+    }
+
+    @media (max-width: 640px) {
+        h1 { font-size: 3em; }
+        .subtitle { font-size: 1.1em; }
+        .btn-group { flex-direction: column; width: 100%; }
+        .btn { width: 100%; justify-content: center; }
+        .stat-number { font-size: 2.5em; }
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. نوار ناوبری حرفه‌ای (Header) -->
-  <nav class="navbar">
-      <a href="#" class="nav-logo">SAMARIX /// CORE</a>
-      <div class="nav-links">
-          <a href="https://github.com/samarix961/samarix961.github.io">Repository</a>
+  <!-- ============================================
+       NAVBAR
+  ============================================= -->
+  <nav class="navbar" id="navbar">
+      <a href="#" class="nav-logo">SAMARIX</a>
+      
+      <div class="nav-links" id="navLinks">
+          <a href="#features">Features</a>
+          <a href="#technology">Technology</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#faq">FAQ</a>
+          <a href="https://github.com/samarix961/samarix961.github.io">GitHub</a>
           <a href="mailto:samarix963@gmail.com">Contact</a>
+      </div>
+
+      <div class="menu-toggle" id="menuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
       </div>
   </nav>
 
-  <!-- 2. بخش اصلی (Hero Section) -->
+  <!-- ============================================
+       HERO SECTION
+  ============================================= -->
   <section class="hero">
       
-      <!-- وضعیت سیستم -->
+      <!-- Floating Particles -->
+      <div class="particle" style="width: 300px; height: 300px; top: 10%; left: 5%; background: radial-gradient(circle, rgba(0,198,255,0.1), transparent);"></div>
+      <div class="particle" style="width: 200px; height: 200px; top: 60%; right: 10%; background: radial-gradient(circle, rgba(118,75,162,0.1), transparent); animation-delay: -5s;"></div>
+
       <div class="status-badge">
           <span class="status-dot"></span>
           SYSTEM OPERATIONAL
       </div>
 
-      <!-- تیتر اصلی با انیمیشن -->
       <h1>SAMARIX</h1>
       
-      <!-- توضیحات زیر تیتر -->
       <p class="subtitle">
-          Advanced secure connectivity architecture. <br>
-          Designed for stability, speed, and freedom.
+          Enterprise-grade secure connectivity architecture built for the modern web.<br>
+          Lightning-fast, rock-solid, completely open source.
       </p>
 
-      <!-- دکمه‌ها -->
       <div class="btn-group">
           <a href="https://github.com/samarix961/samarix961.github.io/releases/latest" class="btn btn-primary">
-              DOWNLOAD LATEST BUILD
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+              </svg>
+              DOWNLOAD v2.1.0
           </a>
           
           <a href="https://github.com/samarix961/samarix961.github.io" class="btn btn-secondary">
-              VIEW SOURCE CODE
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+              VIEW SOURCE
           </a>
       </div>
 
   </section>
 
-  <!-- 3. فوتر (Footer) -->
+  <!-- ============================================
+       STATS SECTION
+  ============================================= -->
+  <section class="stats-section">
+      <div class="stats-grid">
+          <div class="stat-item">
+              <div class="stat-number">99.9%</div>
+              <div class="stat-label">Uptime</div>
+          </div>
+          <div class="stat-item">
+              <div class="stat-number">50K+</div>
+              <div class="stat-label">Active Users</div>
+          </div>
+          <div class="stat-item">
+              <div class="stat-number">150+</div>
+              <div class="stat-label">Countries</div>
+          </div>
+          <div class="stat-item">
+              <div class="stat-number">24/7</div>
+              <div class="stat-label">Support</div>
+          </div>
+      </div>
+  </section>
+
+  <!-- ============================================
+       FEATURES SECTION
+  ============================================= -->
+  <section class="features-section" id="features">
+      <div class="section-header">
+          <div class="section-tag">/// CAPABILITIES</div>
+          <h2 class="section-title">Built for Performance</h2>
+          <p class="section-description">
+              Every feature engineered with security, speed, and reliability at its core.
+          </p>
+      </div>
+
+      <div class="features-grid">
+          
+          <div class="feature-card">
+              <div class="feature-icon">
+                  <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <h3>Military-Grade Encryption</h3>
+              <p>AES-256 encryption with perfect forward secrecy. Your data stays yours, always.</p>
+          </div>
+
+          <div class="feature-card">
+              <div class="feature-icon">
+                  <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+              </div>
+              <h3>Lightning Fast</h3>
+              <p>Optimized routing protocols deliver speeds up to 10x faster than legacy solutions.</p>
+          </div>
+
+          <div class="feature-card">
+              <div class="feature-icon">
+                  <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <h3>Zero Logging</h3>
+              <p>We don't track, collect, or store any of your activity. Ever. Verified by independent audits.</p>
+          </div>
+
+          <div class="feature-card">
+              <div class="feature-icon">
+                  <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+              </div>
+              <h3>Multi-Platform</h3>
+              <p>Seamless experience across Windows, macOS, Linux, iOS, and Android.</p>
+          </div>
+
+          <div class="feature-card">
+              <div class="feature-icon">
+                  <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              </div>
+              <h3>99.9% Uptime</h3>
+              <p>Redundant infrastructure across 50+ global servers ensures always-on connectivity.</p>
+          </div>
+
+          <div class="feature-card">
+              <div class="feature-icon">
+                  <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+              </div>
+              <h3>Open Source</h3>
+              <p>Fully transparent codebase. Audit it, fork it, contribute to it. Community-driven development.</p>
+          </div>
+
+      </div>
+  </section>
+
+  <!-- ============================================
+       TECH STACK SECTION
+  ============================================= -->
+  <section class="tech-section" id="technology">
+      <div class="section-header">
+          <div class="section-tag">/// TECHNOLOGY</div>
+          <h2 class="section-title">Powered By Modern Stack</h2>
+          <p class="section-description">
+              Built with cutting-edge technologies for maximum performance and security.
+          </p>
+      </div>
+
+      <div class="tech-grid">
+          <div class="tech-badge">WireGuard Protocol</div>
+          <div class="tech-badge">OpenVPN</div>
+          <div class="tech-badge">Shadowsocks</div>
+          <div class="tech-badge">V2Ray Core</div>
+          <div class="tech-badge">Nginx</div>
+          <div class="tech-badge">Docker</div>
+          <div class="tech-badge">Kubernetes</div>
+          <div class="tech-badge">PostgreSQL</div>
+          <div class="tech-badge">Redis</div>
+          <div class="tech-badge">Rust Backend</div>
+          <div class="tech-badge">Go Services</div>
+          <div class="tech-badge">React Native</div>
+      </div>
+  </section>
+
+  <!-- ============================================
+       PRICING SECTION
+  ============================================= -->
+  <section class="pricing-section" id="pricing">
+      <div class="section-header">
+          <div class="section-tag">/// PLANS</div>
+          <h2 class="section-title">Choose Your Plan</h2>
+          <p class="section-description">
+              Flexible options for individuals and teams. All plans include core features.
+          </p>
+      </div>
+
+      <div class="pricing-grid">
+          
+          <div class="pricing-card">
+              <div class="plan-name">Free</div>
+              <div class="plan-price">$0<span>/month</span></div>
+              <ul class="plan-features">
+                  <li>1 Device</li>
+                  <li>10 GB Bandwidth</li>
+                  <li>Basic Servers</li>
+                  <li>Community Support</li>
+              </ul>
+              <a href="#" class="btn btn-secondary" style="width: 100%;">Get Started</a>
+          </div>
+
+          <div class="pricing-card featured">
+              <div class="plan-name">Pro</div>
+              <div class="plan-price">$9<span>/month</span></div>
+              <ul class="plan-features">
+                  <li>5 Devices</li>
+                  <li>Unlimited Bandwidth</li>
+                  <li>All Premium Servers</li>
+                  <li>Priority Support</li>
+                  <li>Ad-Blocking</li>
+                  <li>Custom DNS</li>
+              </ul>
+              <a href="#" class="btn btn-primary" style="width: 100%;">Subscribe Now</a>
+          </div>
+
+          <div class="pricing-card">
+              <div class="plan-name">Enterprise</div>
+              <div class="plan-price">$49<span>/month</span></div>
+              <ul class="plan-features">
+                  <li>Unlimited Devices</li>
+                  <li>Dedicated Servers</li>
+                  <li>Custom Infrastructure</li>
+                  <li>24/7 Support</li>
+                  <li>SLA Guarantee</li>
+                  <li>Team Management</li>
+              </ul>
+              <a href="#" class="btn btn-secondary" style="width: 100%;">Contact Sales</a>
+          </div>
+
+      </div>
+  </section>
+
+  <!-- ============================================
+       FAQ SECTION
+  ============================================= -->
+  <section class="faq-section" id="faq">
+      <div class="section-header">
+          <div class="section-tag">/// FAQ</div>
+          <h2 class="section-title">Common Questions</h2>
+          <p class="section-description">
+              Everything you need to know about Samarix.
+          </p>
+      </div>
+
+      <div class="faq-list">
+          <div class="faq-item">
+              <div class="faq-question">What makes Samarix different?</div>
+              <div class="faq-answer">
+                  Samarix is built from the ground up with modern protocols, complete transparency through open-source code, and a strict zero-logs policy verified by third-party audits.
+              </div>
+          </div>
+
+          <div class="faq-item">
+              <div class="faq-question">Is it really free?</div>
+              <div class="faq-answer">
+                  Yes! Our free tier provides 10GB monthly bandwidth with access to basic servers. No credit card required, no hidden fees.
+              </div>
+          </div>
+
+          <div class="faq-item">
+              <div class="faq-question">Which platforms are supported?</div>
+              <div class="faq-answer">
+                  Samarix supports Windows, macOS, Linux, iOS, Android, and can be manually configured on routers and other devices.
+              </div>
+          </div>
+
+          <div class="faq-item">
+              <div class="faq-question">Can I cancel anytime?</div>
+              <div class="faq-answer">
+                  Absolutely. No contracts, no commitments. Cancel your subscription anytime from your account dashboard.
+              </div>
+          </div>
+
+          <div class="faq-item">
+              <div class="faq-question">Do you offer refunds?</div>
+              <div class="faq-answer">
+                  We offer a 30-day money-back guarantee on all paid plans. If you're not satisfied, we'll refund you in full.
+              </div>
+          </div>
+      </div>
+  </section>
+
+  <!-- ============================================
+       CTA SECTION
+  ============================================= -->
+  <section class="cta-section">
+      <div class="cta-content">
+          <h2 class="cta-title">Ready to Get Started?</h2>
+          <p class="cta-description">
+              Join thousands of users who trust Samarix for secure, fast, and reliable connectivity.
+          </p>
+          <div class="btn-group">
+              <a href="https://github.com/samarix961/samarix961.github.io/releases/latest" class="btn btn-primary">
+                  Download Now - It's Free
+              </a>
+          </div>
+      </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+  ============================================= -->
   <footer>
-      <p>&copy; 2025 Samarix Project. Open Source & Secure.</p>
-      <br>
-      <p>
-          Support: <a href="mailto:samarix963@gmail.com" class="footer-link">samarix963@gmail.com</a>
-      </p>
+      <div class="footer-content">
+          
+          <div class="footer-section">
+              <h3>Samarix Project</h3>
+              <p>Next-generation connectivity platform built for privacy, speed, and freedom.</p>
+              <div class="social-links">
+                  <a href="https://github.com/samarix961" title="GitHub">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                      </svg>
+                  </a>
+                  <a href="https://twitter.com" title="Twitter">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                      </svg>
+                  </a>
+                  <a href="https://telegram.org" title="Telegram">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.008-1.252-.241-1.865-.44-.752-.244-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635.099-.002.321.023.465.141.121.099.154.232.17.325.016.093.036.305.02.469z"/>
+                      </svg>
+                  </a>
+              </div>
+          </div>
+
+          <div class="footer-section">
+              <h3>Product</h3>
+              <a href="#features">Features</a>
+              <a href="#technology">Technology</a>
+              <a href="#pricing">Pricing</a>
+              <a href="https://github.com/samarix961/samarix961.github.io/releases">Downloads</a>
+          </div>
+
+          <div class="footer-section">
+              <h3>Resources</h3>
+              <a href="#">Documentation</a>
+              <a href="#">API Reference</a>
+              <a href="#">Community</a>
+              <a href="#faq">FAQ</a>
+          </div>
+
+          <div class="footer-section">
+              <h3>Company</h3>
+              <a href="#">About Us</a>
+              <a href="#">Blog</a>
+              <a href="mailto:samarix963@gmail.com">Contact</a>
+              <a href="#">Privacy Policy</a>
+          </div>
+
+      </div>
+
+      <div class="footer-bottom">
+          <p>&copy; 2025 Samarix Project. Open Source & Secure. Licensed under MIT.</p>
+      </div>
   </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+
+    menuToggle.addEventListener('click', () => {
+        menuToggle.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    navLinks.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            menuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // FAQ Accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+        question.addEventListener('click', () => {
+            const faqItem = question.parentElement;
+            const isActive = faqItem.classList.contains('active');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Open clicked item if it wasn't active
+            if (!isActive) {
+                faqItem.classList.add('active');
+            }
+        });
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href !== '#' && href !== '') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+
+    // Number counter animation for stats
+    const animateValue = (element, start, end, duration) => {
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            const value = Math.floor(progress * (end - start) + start);
+            element.textContent = value.toLocaleString();
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                element.textContent = element.dataset.value;
+            }
+        };
+        window.requestAnimationFrame(step);
+    };
+
+    // Intersection Observer for stats animation
+    const statsObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const statNumbers = entry.target.querySelectorAll('.stat-number');
+                statNumbers.forEach(stat => {
+                    const text = stat.textContent;
+                    const value = text.replace(/[^0-9.]/g, '');
+                    if (!isNaN(value) && value !== '') {
+                        stat.dataset.value = text;
+                        animateValue(stat, 0, parseFloat(value), 2000);
+                    }
+                });
+                statsObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    const statsSection = document.querySelector('.stats-section');
+    if (statsSection) {
+        statsObserver.observe(statsSection);
+    }
+
+    // Parallax effect for hero particles
+    window.addEventListener('mousemove', (e) => {
+        const particles = document.querySelectorAll('.particle');
+        particles.forEach((particle, index) => {
+            const speed = (index + 1) * 0.02;
+            const x = (window.innerWidth - e.pageX * speed) / 100;
+            const y = (window.innerHeight - e.pageY * speed) / 100;
+            particle.style.transform = `translateX(${x}px) translateY(${y}px)`;
+        });
+    });
+  </script>
 
 </body>
 </html>
