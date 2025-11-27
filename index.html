@@ -3,169 +3,143 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Samarix Core</title>
+  <title>Samarix — Secure Core Protocol</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
   <style>
-    /* General Page Settings */
+    :root {
+      --bg: #0d1117;
+      --text: #c9d1d9;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --border: #30363d;
+      --card: #161b22;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
-        background: #080808; /* Very dark grey, almost black */
-        color: #e0e0e0; /* Soft white for general text */
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        font-family: 'Courier New', Courier, monospace; /* Tech font */
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      line-height: 1.6;
     }
-
-    /* Main Logo with Pulsing Animation */
-    h1 {
-        font-size: 4em;
-        margin: 0;
-        letter-spacing: 6px;
-        color: #00e5ff; /* Cyber Blue */
-        animation: pulse-glow 3s infinite ease-in-out; /* Smooth breathing effect */
+    .container {
+      width: 90%;
+      max-width: 480px;
+      text-align: center;
     }
-
-    /* Status Message */
-    .status-msg {
-        font-size: 0.9em;
-        margin-top: 20px;
-        margin-bottom: 50px;
-        color: #ffffff;
-        opacity: 0.7;
-        border-top: 1px solid #333;
-        border-bottom: 1px solid #333;
-        padding: 10px 30px;
-        text-transform: uppercase;
-        letter-spacing: 2px;
+    .logo {
+      font-size: 5.5rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, #58a6ff, #8b5cf6, #f471d0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 8px;
+      animation: breathe 8s ease-in-out infinite;
     }
-
-    /* Green dot for "Online" status */
+    @keyframes breathe {
+      0%, 100% { opacity: 0.9; filter: brightness(1); }
+      50% { opacity: 1; filter: brightness(1.15); }
+    }
+    .tagline {
+      font-size: 1.1rem;
+      color: #8b949e;
+      margin-bottom: 40px;
+      font-weight: 500;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--card);
+      padding: 8px 16px;
+      border-radius: 50px;
+      border: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--green);
+      margin-bottom: 50px;
+    }
     .dot {
-        height: 10px;
-        width: 10px;
-        background-color: #00ff41;
-        border-radius: 50%;
-        display: inline-block;
-        margin-right: 8px;
-        box-shadow: 0 0 8px #00ff41;
+      width: 10px;
+      height: 10px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 12px var(--green);
+      animation: pulse 2s infinite;
     }
-
-    /* Button Container */
-    .btn-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        width: 100%;
-        max-width: 320px;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
-
-    /* Primary Button: Download (Cyber Blue) */
     .download-btn {
-        color: #080808;
-        background: #00e5ff;
-        text-decoration: none;
-        padding: 16px 0;
-        font-weight: 900;
-        font-size: 1.1em;
-        border-radius: 6px;
-        box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-        transition: all 0.3s ease;
-        display: block;
-        border: 2px solid #00e5ff;
+      display: block;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.15rem;
+      padding: 16px 32px;
+      border-radius: 8px;
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(88, 166, 255, 0.3);
     }
     .download-btn:hover {
-        background: transparent;
-        color: #00e5ff;
-        box-shadow: 0 0 35px rgba(0, 229, 255, 0.6);
-        transform: scale(1.03);
-        cursor: pointer;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(88, 166, 255, 0.5);
+      background: #1f6feb;
     }
-
-    /* Secondary Button: Repository (Minimal White) */
-    .repo-btn {
-        color: #bbb;
-        background: transparent;
-        text-decoration: none;
-        padding: 14px 0;
-        font-weight: normal;
-        font-size: 0.95em;
-        border-radius: 6px;
-        border: 1px solid #444;
-        transition: 0.3s;
-        display: block;
+    .repo-link {
+      color: #8b949e;
+      font-size: 0.95rem;
+      text-decoration: none;
+      border-bottom: 1px dashed #444;
+      padding-bottom: 2px;
     }
-    .repo-btn:hover {
-        border-color: #fff;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.05);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    .repo-link:hover {
+      color: var(--accent);
+      border-color: var(--accent);
     }
-
-    /* Footer / Contact Section */
     .footer {
-        margin-top: 70px;
-        font-size: 0.8em;
-        color: #555;
-        line-height: 1.6;
+      margin-top: 80px;
+      font-size: 0.85rem;
+      color: #484f58;
     }
-    
-    .email-link {
-        color: #777;
-        text-decoration: none;
-        border-bottom: 1px dotted #555;
-        transition: 0.3s;
+    .footer a {
+      color: #8b949e;
+      text-decoration: none;
     }
-    .email-link:hover {
-        color: #00e5ff;
-        border-bottom: 1px solid #00e5ff;
-    }
-
-    /* Animation Keyframes for Logo */
-    @keyframes pulse-glow {
-        0% {
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
-            opacity: 0.7;
-        }
-        50% {
-            text-shadow: 0 0 30px rgba(0, 229, 255, 0.8), 0 0 15px rgba(255, 255, 255, 0.5);
-            opacity: 1;
-        }
-        100% {
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
-            opacity: 0.7;
-        }
+    .footer a:hover {
+      color: var(--accent);
     }
   </style>
 </head>
 <body>
 
-  <!-- Pulsing Logo -->
-  <h1>SAMARIX</h1>
-  
-  <!-- Status Bar -->
-  <div class="status-msg">
-      <span class="dot"></span> System Operational
-  </div>
-  
-  <div class="btn-container">
-      <!-- Button 1: Auto Download Latest -->
-      <a href="https://github.com/samarix961/samarix961.github.io/releases/latest" class="download-btn">
-         [ DOWNLOAD LATEST CORE ]
-      </a>
+  <div class="container">
+    <div class="logo">SAMARIX</div>
+    <div class="tagline">Next-generation secure tunneling protocol</div>
+    
+    <div class="status">
+      <div class="dot"></div>
+      <span>All systems operational</span>
+    </div>
 
-      <!-- Button 2: View Source -->
-      <a href="https://github.com/samarix961/samarix961.github.io" class="repo-btn">
-         > Access Repository <
-      </a>
-  </div>
+    <a href="./latest.exe" class="download-btn">
+      Download Latest Core — Windows
+    </a>
 
-  <!-- Contact Footer -->
-  <div class="footer">
-    OFFICIAL RELEASE HUB<br>
-    Support: <a href="mailto:samarix963@gmail.com" class="email-link">samarix963@gmail.com</a>
+    <a href="https://github.com/samarix961/samarix961.github.io" class="repo-link">
+      View source & manual downloads →
+    </a>
+
+    <div class="footer">
+      Official Release Hub · Always Up-to-Date<br>
+      Contact: <a href="mailto:samarix963@gmail.com">samarix963@gmail.com</a>
+    </div>
   </div>
 
 </body>
